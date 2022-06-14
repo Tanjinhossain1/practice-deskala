@@ -62,6 +62,10 @@ const UpdateCandidate = () => {
                         </label>
                         <select {...register('state')} className="select select-bordered">
                             <option disabled selected>Select Your State</option>
+                            <option>Bangladesh</option>
+                            <option>Dubai</option>
+                            <option>SaudiArab</option>
+                            <option>India</option>
                             <option>USA</option>
                             <option>Canada</option>
                         </select>

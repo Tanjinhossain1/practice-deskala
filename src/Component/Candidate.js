@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Candidate = ({ index, refetch, candidate }) => {
     const { name, birthDate } = candidate;
     const navigate = useNavigate()
-
+    refetch()
 
     // delete candidate 
     const deleteCandidate = (id) => {
