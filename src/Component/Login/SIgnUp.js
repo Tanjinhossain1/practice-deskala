@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link,useNavigate,useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../firebase.init';
@@ -9,7 +9,7 @@ import auth from '../firebase.init';
 const SIgnUp = () => {
     const [
         createUserWithEmailAndPassword,
-        
+
     ] = useCreateUserWithEmailAndPassword(auth);
     const {
         register,
@@ -17,34 +17,34 @@ const SIgnUp = () => {
     } = useForm();
     let navigate = useNavigate();
     let location = useLocation();
-  
+
     let from = location.state?.from?.pathname || "/";
 
-    const onSubmit = (data,event) => {
+    const onSubmit = (data, event) => {
         console.log(data)
         const email = data.email;
         const password = data.password;
         const phoneNumber = data.phoneNumber;
         const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
-        const userDetail = {email,password,phoneNumber}
+        const userDetail = { email, password, phoneNumber }
         if (email.includes('@gmail.com')) {
             if (phoneNumber.length <= 10) {
                 if (password.match(regex)) {
                     createUserWithEmailAndPassword(email, password)
-                    fetch('http://localhost:4000/userCreate',{
+                    fetch('https://murmuring-plateau-96654.herokuapp.com/userCreate', {
                         method: 'PUT',
-                        headers:{
+                        headers: {
                             'content-type': 'application/json'
                         },
-                        body:JSON.stringify({userDetail}) 
+                        body: JSON.stringify({ userDetail })
                     })
-                    .then(res=>res.json())
-                    .then(data=> {
-                        if(data.acknowledged){
-                            toast.success('user created and set Database')
-                            navigate(from, { replace: true });
-                        }                
-                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.acknowledged) {
+                                toast.success('user created and set Database')
+                                navigate(from, { replace: true });
+                            }
+                        })
                     event.target.reset()
 
                 } else {
@@ -65,39 +65,39 @@ const SIgnUp = () => {
     };
     return (
         <div>
-            <form class=" min-h-screen bg-base-200 pt-8" onSubmit={handleSubmit(onSubmit)}>
-                <div class="">
-                    <div class="rounded-lg w-4/4 sm:w-3/4 md:w-2/4 mx-auto  lg:w-[500px] xl:w-[500px] shadow-2xl bg-base-100">
+            <form className=" min-h-screen bg-base-200 pt-8" onSubmit={handleSubmit(onSubmit)}>
+                <div className="">
+                    <div className="rounded-lg w-4/4 sm:w-3/4 md:w-2/4 mx-auto  lg:w-[500px] xl:w-[500px] shadow-2xl bg-base-100">
                         <h1 className='pt-8 text-2xl font-bold text-center'>SignUp</h1>
-                        <div class="card-body">
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Email Id</span>
+                        <div className="card-body">
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Email Id</span>
                                 </label>
-                                <input type="text" {...register('email')} placeholder="Enter You Email Id" class="input input-bordered" />
+                                <input type="text" {...register('email')} placeholder="Enter You Email Id" className="input input-bordered" />
                             </div>
 
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Phone Number</span>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Phone Number</span>
                                 </label>
-                                <input type="number" {...register('phoneNumber')} placeholder="Enter Your Phone Number" class="input input-bordered" />
+                                <input type="number" {...register('phoneNumber')} placeholder="Enter Your Phone Number" className="input input-bordered" />
 
                             </div>
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Password</span>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Password</span>
                                 </label>
-                                <input type="text" {...register('password')} placeholder="Enter Your password" class="input input-bordered" />
-                                <label class="label">
-                                    <p href="#" class=" label-text-alt link link-hover">Forgot password?</p>
+                                <input type="text" {...register('password')} placeholder="Enter Your password" className="input input-bordered" />
+                                <label className="label">
+                                    <p href="#" className=" label-text-alt link link-hover">Forgot password?</p>
                                 </label>
-                                <label class="label">
-                                    <p href="#" class=" label-text-alt link link-hover">Already have an Account? <Link to='/login'>Login</Link></p>
+                                <label className="label">
+                                    <p href="#" className=" label-text-alt link link-hover">Already have an Account? <Link to='/login'>Login</Link></p>
                                 </label>
                             </div>
-                            <div class="form-control mt-6">
-                                <button class="w-2/4 mx-auto btn border-0 hover:bg-blue-500 bg-blue-500">Login</button>
+                            <div className="form-control mt-6">
+                                <button className="w-2/4 mx-auto btn border-0 hover:bg-blue-500 bg-blue-500">Login</button>
                             </div>
                         </div>
                     </div>
