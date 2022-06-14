@@ -1,10 +1,22 @@
 import React from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate,useLocation  } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import auth from '../firebase.init';
 
 const Login = () => {
-   
+    const [
+        signInWithEmailAndPassword,
+        user
+      ] = useSignInWithEmailAndPassword(auth);
+      let navigate = useNavigate();
+      let location = useLocation();
+    
+      let from = location.state?.from?.pathname || "/";
+      if(user){
+        navigate(from, { replace: true });
+      }
     const {
         register,
         handleSubmit, formState: { errors },
@@ -19,6 +31,8 @@ const Login = () => {
             console.log('ok done email is right')
             if(password.match(regex)){
                 toast.success('ok done for pass')
+                signInWithEmailAndPassword(email,password)
+
             }else{toast.error(`One Uppercase
             One lowercase,
             One Numeric,One

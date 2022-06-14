@@ -7,16 +7,22 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './Component/LandingPage';
 import CreateCandidate from './Component/CreateCandidate';
+import UpdateCandidate from './Component/UpdateCandidate';
+import Home from './Component/Home';
+import RequireAuth from './Component/Login/RequireAuth';
 
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route path='/landingPage' element={<LandingPage />}></Route>
-        <Route path='/createCandidate' element={<CreateCandidate />}></Route>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/home' element={<Home />}></Route>
+        <Route path='/landingPage' element={<RequireAuth><LandingPage /></RequireAuth>}></Route>
+        <Route path='/createCandidate' element={<RequireAuth><CreateCandidate /></RequireAuth>}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/signUp' element={<SIgnUp />}></Route>
+        <Route path='/landingPage/updateCandidate/:id' element={<UpdateCandidate />} />
       </Routes>
       <ToastContainer />
     </div>
@@ -24,8 +30,3 @@ function App() {
 }
 
 export default App;
-// const { isLoading, error, data } = useQuery('repoData', () =>
-// fetch('https://api.github.com/repos/tannerlinsley/react-query').then(res =>
-//   res.json()
-// )
-// )

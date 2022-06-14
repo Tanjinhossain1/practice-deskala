@@ -1,16 +1,25 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate,useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../firebase.init';
 
 
 const SIgnUp = () => {
-
+    const [
+        createUserWithEmailAndPassword,
+        
+    ] = useCreateUserWithEmailAndPassword(auth);
     const {
         register,
         handleSubmit, formState: { errors },
     } = useForm();
+    let navigate = useNavigate();
+    let location = useLocation();
+  
+    let from = location.state?.from?.pathname || "/";
+
     const onSubmit = (data,event) => {
         console.log(data)
         const email = data.email;
@@ -21,6 +30,7 @@ const SIgnUp = () => {
         if (email.includes('@gmail.com')) {
             if (phoneNumber.length <= 10) {
                 if (password.match(regex)) {
+                    createUserWithEmailAndPassword(email, password)
                     fetch('http://localhost:4000/userCreate',{
                         method: 'PUT',
                         headers:{
@@ -32,6 +42,7 @@ const SIgnUp = () => {
                     .then(data=> {
                         if(data.acknowledged){
                             toast.success('user created and set Database')
+                            navigate(from, { replace: true });
                         }                
                     })
                     event.target.reset()

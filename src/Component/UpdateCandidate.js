@@ -1,20 +1,21 @@
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import auth from './firebase.init';
 
-const CreateCandidate = () => {
-    const [user] = useAuthState(auth)
+const UpdateCandidate = () => {
+    const [user] = useAuthState(auth);
+    const {id} = useParams()
     const {
         register,
         handleSubmit, formState: { errors },
     } = useForm();
     const userEmail = user?.email
     const onSubmit = (data,event) => {
-        console.log(data)
-        fetch('http://localhost:4000/createCandidate', {
-            method: 'POST',
+        fetch(`http://localhost:4000/updateCandidate/${id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
@@ -22,8 +23,9 @@ const CreateCandidate = () => {
         })
             .then(res => res.json())
             .then(result => {
-                if(result.insertedId){
-                    toast.success('Created Candidate Complete')
+                console.log(result)
+                if(result.acknowledged){
+                    toast.success('Update Candidate Complete')
                 }
                 event.target.reset()
             })
@@ -35,7 +37,7 @@ const CreateCandidate = () => {
                 <div className='grid md:grid-cols-2 gap-12'>
                     <div class="form-control w-full max-w-xs">
                         <label class="label">
-                            <span class="label-text ">Name</span>
+                            <span class="label-text">Name</span>
                         </label>
                         <input required {...register('name')} type="text" placeholder="Enter Your Name" class="input input-bordered w-full max-w-xs" />
                     </div>
@@ -80,11 +82,11 @@ const CreateCandidate = () => {
                 </div>
                 <div className='lg:flex justify-end gap-8 mt-6'>
                     <p class="  px-6 hover:bg-info font-bold border-2 border-info hover:text-white text-xl rounded-md w-2/4 mb-6 md:w-1/4 md:mb-8 lg:mb-0 text-center cursor-pointer lg:w-1/4 py-3">Cancel</p>
-                    <button class=" px-6 bg-info font-bold text-white text-xl rounded-md lg:w-1/4 py-3">Create</button>
+                    <button class=" px-6 bg-info font-bold text-white text-xl rounded-md lg:w-1/4 py-3">Update</button>
                 </div>
             </form>
         </div>
-    );
+    )
 };
 
-export default CreateCandidate;
+export default UpdateCandidate;
