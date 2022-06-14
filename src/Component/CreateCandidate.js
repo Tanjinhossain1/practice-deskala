@@ -3,6 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import auth from './firebase.init';
+import {  useNavigate } from 'react-router-dom';
 
 const CreateCandidate = () => {
     const [user] = useAuthState(auth)
@@ -10,7 +11,8 @@ const CreateCandidate = () => {
         register,
         handleSubmit, formState: { errors },
     } = useForm();
-    const userEmail = user?.email
+    const userEmail = user?.email;
+    const navigate = useNavigate();
     const onSubmit = (data, event) => {
         console.log(data)
         fetch('https://murmuring-plateau-96654.herokuapp.com/createCandidate', {
@@ -79,8 +81,8 @@ const CreateCandidate = () => {
                     </div>
                 </div>
                 <div className='lg:flex justify-end gap-8 mt-6'>
-                    <p className="  px-6 hover:bg-info font-bold border-2 border-info hover:text-white text-xl rounded-md w-2/4 mb-6 md:w-1/4 md:mb-8 lg:mb-0 text-center cursor-pointer lg:w-1/4 py-3">Cancel</p>
-                    <button className=" px-6 bg-info font-bold text-white text-xl rounded-md lg:w-1/4 py-3">Create</button>
+                    <p onClick={()=>navigate('/landingPage')} className="  px-6 hover:bg-info font-bold border-2 border-info hover:text-white text-xl rounded-md w-2/4 mb-6 md:w-1/4 md:mb-8 lg:mb-0 text-center cursor-pointer lg:w-1/4 py-3">Cancel</p>
+                    <button  className=" px-6 bg-info font-bold text-white text-xl rounded-md lg:w-1/4 py-3">Create</button>
                 </div>
             </form>
         </div>

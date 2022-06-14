@@ -13,7 +13,7 @@ const LandingPage = () => {
     )
   )
   if (isLoading) {
-    return <button className="btn loading">loading</button>
+    return <div className='flex justify-center mt-12'><button className="btn loading"></button></div>
   }
   console.log(candidates)
   return (

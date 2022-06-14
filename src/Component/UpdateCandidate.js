@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import auth from './firebase.init';
 
@@ -12,7 +12,8 @@ const UpdateCandidate = () => {
         register,
         handleSubmit, formState: { errors },
     } = useForm();
-    const userEmail = user?.email
+    const userEmail = user?.email;
+    const navigate = useNavigate()
     const onSubmit = (data, event) => {
         fetch(`https://murmuring-plateau-96654.herokuapp.com/updateCandidate/${id}`, {
             method: 'PUT',
@@ -81,7 +82,7 @@ const UpdateCandidate = () => {
                     </div>
                 </div>
                 <div className='lg:flex justify-end gap-8 mt-6'>
-                    <p className="  px-6 hover:bg-info font-bold border-2 border-info hover:text-white text-xl rounded-md w-2/4 mb-6 md:w-1/4 md:mb-8 lg:mb-0 text-center cursor-pointer lg:w-1/4 py-3">Cancel</p>
+                    <p  onClick={()=>navigate('/landingPage')} className="  px-6 hover:bg-info font-bold border-2 border-info hover:text-white text-xl rounded-md w-2/4 mb-6 md:w-1/4 md:mb-8 lg:mb-0 text-center cursor-pointer lg:w-1/4 py-3">Cancel</p>
                     <button className=" px-6 bg-info font-bold text-white text-xl rounded-md lg:w-1/4 py-3">Update</button>
                 </div>
             </form>
